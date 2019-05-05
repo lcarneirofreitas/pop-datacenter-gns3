@@ -1,0 +1,43 @@
+
+
+# confs nos firewalls
+# ip_forward
+net.ipv4.ip_forward = 1
+
+# iptables masquerade interfaces Lan
+iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o ens5 -j MASQUERADE
+
+# logar nos servidores
+user: ubuntu
+pass: ubuntu
+
+
+# referencias
+
+# GNS3 install windows appliance
+https://gns3.com/marketplace/appliance/windows
+https://docs.gns3.com/1_3RdgLWgfk4ylRr99htYZrGMoFlJcmKAAaUAc8x9Ph8/index.html
+https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/
+
+
+
+
+
+# desafios
+##########
+
+- neste formato utilizamos as duas infras para envio de tráfego de ligações das E1's ao sip-router.teravoz.com.br
+
+- estudar o tunnel ipsec como faremos? 
+	- 1 tunnel por firewall na aws, como lidamos com isso dentro do cloud, questão de roteamento, etc?
+	- 1 tunnel em apenas 1 firewall, no caso de problemas subimos o tunnel no segundo firewall
+	Obs: Nesse metodo ficamos apenas com um firewall em operação no datacenter, isso é ruim
+
+- estudar como realizar o acesso aos demais ativos dentro do datacenter, switchs, audiocodes, etc
+
+- escolha do range ip dentro dos data-center's, isso para não entrar em conflito com nossas redes do cloud, tambem definir os blocos para crescimento
+
+- corrigir bug no wfs que nao remove as rotas de health-check no momento de restart e stop do daemon
+
+

@@ -1,0 +1,70 @@
+#################
+# confs de router
+#################
+
+ROUTER 2 Link telefonica
+
+R2#en
+R2#conf t
+R2(config)#interface fastEthernet 0/0
+R2(config-if)#ip address dhcp
+R2(config-if)#no shutdown
+R2(config)#ip domain-lookup
+
+R2#conf t
+R2(config)#interface fastEthernet 0/1
+R2(config-if)#ip add 189.8.74.1 255.255.255.248
+R2(config-if)#no shutdown
+R2(config-if)#exit
+
+R2#conf t
+R2(config)#interface fastEthernet 0/0
+R2(config-if)#ip nat outside
+R2(config-if)#exit
+R2(config)#interface fastEthernet 0/1
+R2(config-if)#ip nat inside
+R2#wr
+R2(config-if)#exit
+
+R2(config)#access-list 1 permit 189.8.74.0 0.0.0.7
+R2(config)#ip nat inside source list 1 interface fastEthernet 0/0 overload
+
+R2(config)#ip dhcp pool internal-client
+R2(dhcp-config)#network 189.8.74.1 255.255.255.248
+R2(dhcp-config)#default-router 189.8.74.1
+R2(dhcp-config)#dns-server 8.8.8.8
+
+
+ROUTER 1 Link algar
+
+R1#en
+R1#conf t
+R1(config)#interface fastEthernet 0/0
+R1(config-if)#ip address dhcp
+R1(config-if)#no shutdown
+R1(config)#ip domain-lookup
+
+R1#conf t
+R1(config)#interface fastEthernet 0/1
+R1(config-if)#ip add 177.69.125.49 255.255.255.248
+R1(config-if)#no shutdown
+R1(config-if)#exit
+
+R1#conf t
+R1(config)#interface fastEthernet 0/0
+R1(config-if)#ip nat outside
+R1(config-if)#exit
+R1(config)#interface fastEthernet 0/1
+R1(config-if)#ip nat inside
+R1#wr
+R1(config-if)#exit
+
+R1(config)#access-list 1 permit 177.69.125.48 0.0.0.7
+R1(config)#ip nat inside source list 1 interface fastEthernet 0/0 overload
+
+R1(config)#ip dhcp pool internal-client
+R1(dhcp-config)#network 177.69.125.49 255.255.255.248
+R1(dhcp-config)#default-router 177.69.125.49
+R1(dhcp-config)#dns-server 8.8.8.8
+
+
