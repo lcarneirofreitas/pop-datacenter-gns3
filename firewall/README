@@ -27,7 +27,7 @@ https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/
 # desafios
 ##########
 
-- neste formato utilizamos as duas infras para envio de tráfego de ligações das E1's ao sip-router.teravoz.com.br
+- neste formato utilizamos as duas infras para envio de tráfego de ligações das E1's ao destino
 
 - estudar o tunnel ipsec como faremos? 
 	- 1 tunnel por firewall na aws, como lidamos com isso dentro do cloud, questão de roteamento, etc?
