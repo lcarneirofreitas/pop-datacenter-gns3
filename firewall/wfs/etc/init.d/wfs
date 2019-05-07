@@ -28,29 +28,12 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-# Read configuration wfs
-[ -r /etc/$NAME/$NAME.conf ] && . /etc/$NAME/$NAME.conf
-
-# Read configuration targets to remove routes, stop action
-[ -r /etc/$NAME/targets.conf ] && TARGETS=`cat "/etc/$NAME/targets.conf"`
-
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
 
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
-
-#
-# Function to remove routes health-check
-# 
-remove_routes () {
-
-        for x in $TARGETS
-        do  
-            route del -host "$x" gw "$PRIMARY_GW" >> /dev/null 2>&1
-        done
-}
 
 
 #
@@ -124,8 +107,6 @@ case "$1" in
   stop)
 	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
 	do_stop
-	# Remove router health-check
-	remove_routes
 	case "$?" in
 		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
 		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
@@ -138,8 +119,6 @@ case "$1" in
 
 	log_daemon_msg "Restarting $DESC" "$NAME"
 	do_stop
-	# Remove router health-check
-	remove_routes
 	case "$?" in
 	  0|1)
 		do_start
